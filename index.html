@@ -1,7 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INST377 Final Project: AL ALERT</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
   <body>
-    <h1>Hello World</h1>
-    <p>I'm hosted with GitHub Pages.</p>
+    <div class="wrapper">
+      <header class="header">
+        <img src="Al_icon.png" alt="Al Alert logo">
+        <h1>AL ALERT</h1>
+      </header>
+      <div class="container">
+        <!--- left inputs--->
+        <div class="left_section box">
+          <h3>Enter Barcode</h3>
+          <form action="https://world.openfoodfacts.org/api/v0/product/737628064502.json"
+            class="box main_form"> 
+            <div>
+                <label for="resto"></label>
+                <input type="text" id="resto" name="resto"/>
+                <button type="submit">Submit</button>
+            </div>  
+          </form>
+          <!--Below Barcode-->
+          <h3>Enter Allergies</h3>
+          <div class="box" id="restaurant_list">
+              <label for="resto"></label>
+              <input type="text" id="resto" name="resto"/>
+              <button type="submit">Submit</button>
+          </div>
+        </div>
+        <!--- Right Robot--->
+        <div class="right_section box">
+          <div class="bot">
+            <img src="Al_Bot.png" alt="Al Alert Robot">
+          </div>
+          <div class="lds-ellipsis" id="data_load_animation"><div></div><div></div><div></div><div></div></div>
+        </div>
+      </div>
+    </div>
+    <script src="./script.js"></script>
   </body>
 </html>
