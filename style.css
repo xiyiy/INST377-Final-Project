@@ -42,8 +42,8 @@
     margin:0;
     padding:0;
     padding-bottom:1.5rem;
-    align-items: center;
     color: #FEFAE0;
+    align-items: center;
   }
   
   form {
@@ -99,6 +99,7 @@
     box-shadow: 0 2em 1em -0.9em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
 
     border-radius: 4px;
+    flex-direction: column;
   }
   
   
@@ -126,15 +127,16 @@
     flex: 0 1 auto;
     margin: 1rem;
     padding: 1.5rem;
+    align-items: center;
   }
   
   .right_section {
     background-color: #606C38;
     flex: 1 2 auto;
     margin: 1rem;
-    align-items: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
   
   .subtitle {
@@ -259,10 +261,12 @@
     .right_section {
       flex: 1 1 auto;
       justify-content: flex-start;
+      align-items: center;
     }
   
     .left_section {
       flex: 1 1 auto;
+      align-items: center;
     }
   
     .box {
