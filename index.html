@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div class="wrapper">
       <header class="header">
         <img src="Al_icon.png" class="alIcon" alt="Al Alert logo">
@@ -28,12 +29,18 @@
           </form>
           <!--Below Barcode-->
           <h2>Enter Allergies</h2>
-          <div class="box" id="allery_list">
+          <div class="box" id="allergy_list">
               <label for="al"></label>
               <input type="text" id="al" name="al"/>
               <button type="submit">Submit</button>
           </div>
+          <!--Bar chart-->
+          <h3>Products with Allergens </h3>
+          <div class="chart_container">
+            <canvas id="myChart"></canvas>
+          </div>
         </div>
+        
         <!--- Right Robot--->
         <div class="right_section box">
           <div class="bot">

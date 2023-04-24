@@ -48,6 +48,7 @@
   
   form {
     accent-color: hsla(120, 100%, 50%, 0.482);
+
   }
   
   /*
@@ -260,6 +261,11 @@
       width: fill-available;
       align-items: flex-start;  
     }
-}
+  }
+
+  .chart_container {
+    height: 100%;
+    width: 100%;
+  }
   
   
