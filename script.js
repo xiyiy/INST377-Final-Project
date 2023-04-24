@@ -177,7 +177,7 @@ async function mainEvent() {
     //console.table(storedList); // this is called "dot notation"
   });
 
-  form.addEventListener('submit', submitEvent) => {
+  form.addEventListener('submit', (submitEvent) => {
     submitEvent.preventDefault();
 
     currentList = processRestaurants(chartData);
@@ -185,7 +185,7 @@ async function mainEvent() {
     const localData = shapeDataForLineChart(chartData);
     changeChart(myChart, localData);
 
-  }
+});
 
   generateListButton.addEventListener("click", (event) => {
     console.log("generate new list");
