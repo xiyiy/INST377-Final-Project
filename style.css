@@ -217,7 +217,7 @@
     width: fill-available;
   
     /* here we are setting white space correctly */
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     height: 2rem;
     border-radius: 4px;
   }
