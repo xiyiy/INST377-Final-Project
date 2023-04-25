@@ -17,25 +17,23 @@
       <div class="container">
         <!--- left inputs--->
         <div class="box">
-          <div class="left_section">
-            <h2>Enter Barcode</h2>
-            <form class="barcode_form">
-            <!--<form action="https://world.openfoodfacts.org/api/v0/product/737628064502.json"
-            class="barcode_form"> -->
-              <div>
-                <label for="barcode"></label>
-                <input type="text" id="barcode" name="barcode"/>
-                <button type="submit">Submit</button>
-              </div>  
-            </form>
-
-            <!--Below Barcode-->
-            <h2>Enter Allergies</h2>
+          <div class="left_section box">
+            <form action="https://world.openfoodfacts.org/api/v0/product/737628064502.json" id="main_form">
+            
+            <!--Barcode-->
+            <h2>Allergen Detection</h2>
             <div>
-              <label for="al"></label>
+              <label for="barcode">Enter Barcode</label>
+              <input type="text" id="barcode" name="barcode"/>
+              <button type="submit" id="submitBarcode">Submit</button>
+            </div>  
+            <!--Allergies-->
+            <div>
+              <label for="al">Enter Allergies</label>
               <input type="text" id="al" name="al"/>
-              <button type="submit">Submit</button>
+              <button type="submit" id="submitAl">Submit</button>
             </div>
+            </form>
           </div>
           <div class="left_section">
             <!--Bar chart-->
@@ -48,15 +46,18 @@
         
         <!--- Right Robot--->
         <div class="right_section box">
-          <div class="bot">
-            <img src="Al_Bot.png"  class="alBot" alt="Al Alert Robot">
-          </div>
           <div class="bubble left"> 
             <h2>Al Alert!<br></h2>
             <h3>The product contains:<br></h3>
-            <div class="alertBox" id="allergyAPI">Allergen Information</div>
+            <div class="alertBox" id="allergy_list">Allergen Information</div>
           </div>
+
+          <div class="bot">
+            <img src="Al_Bot.png"  class="alBot" alt="Al Alert Robot">
+          </div>
+          
         </div>
+
       </div>
     </div>
     <script src="./script.js"></script>

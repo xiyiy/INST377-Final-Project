@@ -4,24 +4,18 @@
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 */
 
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
-}
-
 function injectHTML(list) {
   console.log("fired injectHTML");
-  const target = document.querySelector("#restaurant_list");
+  const target = document.querySelector("#allergy_list");
   target.innerHTML = "";
 
   list.forEach((item, index) => {
-    const str = `<li>${item.name}</li>`; /* `` bring variable in and render as str*/
+    const str = `${item.allergens_tags}`; /* `` bring variable in and render as str*/
     target.innerHTML += str;
   });
 }
 
-function filterList(list, query) {
+function processData(list, query) {
   //query is a value user input
   return list.filter((item) => {
     const lowerCaseName = item.name.toLowerCase();
@@ -30,16 +24,16 @@ function filterList(list, query) {
   });
 }
 
-function cutRestaurantList(list) {
+/*function cutRestaurantList(list) {
   console.log("fired cut list");
   const range = [...Array(15).keys()]; //makes new array of curr with size 15
   return (newArray = range.map((item) => {
     const index = getRandomIntInclusive(0, list.length - 1);
     return list[index];
   }));
-}
+}*/
 
-function initMap() {
+/*function initMap() {
   const carto = L.map("map").setView([38.98, -76.93], 13);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -47,9 +41,9 @@ function initMap() {
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(carto);
   return carto;
-}
+}*/
 
-function markerPlace(array, map) {
+/*function markerPlace(array, map) {
   console.log("array for markers", array);
 
   map.eachLayer((layer) => {
@@ -59,11 +53,11 @@ function markerPlace(array, map) {
   });
 
   array.forEach((item) => {
-    console.log("markerPlace", item);
-    const { coordinates } = item.geocoded_column_1;
+    console.log("Barcode", item);
+    const { coordinates } = item.code;
     L.marker([coordinates[1], coordinates[0]]).addTo(map);
   });
-}
+}*/
 
 function initChart(chart, object) {
   const labels = Object.keys(object);
@@ -104,7 +98,7 @@ function changeChart(chart, dataObject) {
   chart.update();
 }
 
-function shapeData(array) {
+/*function shapeData(array) {
   return array.reduce((collection, item) => {
     if(!collection[item.product.get(allergens_from_ingredients)]) {
       collection[item.product.get(allergens_from_ingredients)] = [item]
@@ -113,9 +107,9 @@ function shapeData(array) {
     }
     return collection;
   }, {});
-}
+}*/
 
-/*function shapeDataForLineChart(array) {
+function shapeData(array) {
   return array.reduce((collection, item) => {
     if(!collection[item.category]) {
       collection[item.category] = [item]
@@ -124,91 +118,112 @@ function shapeData(array) {
     }
     return collection;
   }, {});
-}*/
+}
 
-async function getData() {
-  const url = 'https://world.openfoodfacts.org/api/v0/product/737628064502.json';
+async function getData() { //filter data with just code and product
+  const url = 'https://world.openfoodfacts.org/api/v0/product/${barcode}.json';
   const data = await fetch(url);
   const json = await data.json();
-  const reply = json.filter((item) => Boolean(item.geocoded_column_1)).filter((item) => Boolean(item.name));
+  const reply = json.filter((item) => Boolean(item.code)).filter((item) => Boolean(item.product));
   return reply;
 }
 
 /* Main Event */
 async function mainEvent() {
   // the async keyword means we can make API requests
-  const form = document.querySelector(".main_form"); // This class name needs to be set on your form before you can listen for an event on it
-  const loadDataButton = document.querySelector("#data_load");
-  //const clearDataButton = document.querySelector("#data_clear");
- // const generateListButton = document.querySelector("#generate");
-  const textField = document.querySelector("#resto");
+  const form = document.querySelector("#main_form"); 
+  const inputBarcode = document.querySelector("#barcode");
+  const inputAl = document.querySelector("#al");
+  const submitBarcode = document.querySelector("#submitBarcode")
+  const submitAl = document.querySelector("#submitAl")
   const chartTarget = document.querySelector('#myChart')
-
-  const loadAnimation = document.querySelector("#data_load_animation");
  
-  const storedData = localStorage.getItem("storedData");
-  let parsedData = JSON.parse(storedData);
-  if (parsedData?.length > 0) {
-    generateListButton.classList.remove("hidden");
-  }
-
-  let currentList = [];
-
   /* API data request */
   const chartData = await getData();
   const shapedData = shapeData(chartData);
   console.log(shapedData);
   const myChart = initChart(chartTarget, shapedData);
+ 
+  const results = await fetch(
+    "https://world.openfoodfacts.org/api/v0/product/${barcode}.json"
+  );
+  const arrayFromJson = await results.json();
+  console.log(arrayFromJson);
 
+  let currentArray;
+  form.addEventListener('submit', (submitEvent) => {
+    submitEvent.preventDefault();
+    currentArray = processData(chartData);
+    
+    const alByBarcode = currentArray.filter((item) => Boolean(item.code));
+    injectHTML(alByBarcode);
 
-  loadDataButton.addEventListener("click", async (submitEvent) => {
-    // async has to be declared on every function that needs to "await" something
-    console.log("Loading data"); // this is substituting for a "breakpoint"
-    loadAnimation.style.display = "inline-block";
+    const localData = shapeData(chartData);
+    changeChart(myChart, localData);
+  });
 
-    //get request to control results
-    const results = await fetch(
-      "https://world.openfoodfacts.org/api/v0/product/737628064502.json"
-    );
-    // This changes the response from the GET into data we can use - an "object"
-    const storedList = await results.json();
+  inputBarcode.addEventListener("input", (event) => {
+    //filter does nothing until something exists
+    if (!currentArray.length) { return; }
+    console.log(currentArray)
 
-    localStorage.setItem("storedData", JSON.stringify(storedList));
-    parsedData = storedList;
+    //filter by barcode
+    const alByBarcode = currentArray
+      .filter((item) => Boolean(item.code));
 
-    if (parsedData?.length > 0) {
-      generateListButton.classList.remove("hidden");
+    if (alByBarcode.length > 0) {
+      injectHTML(alByBarcode);
     }
-
-    loadAnimation.style.display = "none";
-    //console.table(storedList); // this is called "dot notation"
   });
 
   form.addEventListener('submit', (submitEvent) => {
     submitEvent.preventDefault();
+    currentArray = processData(chartData);
+    
+    //allergen_tags in product
+    const alByBarcode = currentArray.filter((item) => Boolean(item.product.get(allergens_tags)));
+    injectHTML(alByBarcode);
 
-    currentList = processRestaurants(chartData);
-    injectHTML(currentList);
     const localData = shapeData(chartData);
     changeChart(myChart, localData);
-
-});
-
-  generateListButton.addEventListener("click", (event) => {
-    console.log("generate new list");
-    currentList = cutRestaurantList(parsedData);
-    console.log(currentList);
-    injectHTML(currentList);
-    //markerPlace(currentList, carto);
   });
 
-  textField.addEventListener("input", (event) => {
-    console.log("input", event.target.value);
-    const newList = filterList(currentList, event.target.value);
-    console.log(newList);
-    injectHTML(newList);
-    //markerPlace(newList, carto);
+  inputAl.addEventListener("input", (event) => {
+    if (!currentArray.length) { return; }
+    console.log(currentArray)
+
+    //filter by allergens_tags
+    const alByBarcode = currentArray
+      .filter((item) => Boolean(item.product.get(allergens_tags)));
+    
+    if (alByBarcode.length > 0) {
+      injectHTML(alByBarcode);
+    }
   });
+
+  /* testing */
+  form.addEventListener('submit', (submitEvent) => {
+    submitEvent.preventDefault();
+    
+    //barcode submit
+    if(submitEvent.target === submitBarcode){
+      const chartData = await getData()
+    }
+    const inputBarcode = submitEvent.target.elements["barcode"]
+    const inputAl = submitEvent.target.elements["allergy"]
+    
+    if(submitEvent.submitType.name === "submitBarcode"){
+      const barcode = inputBarcode.value;
+    }
+    currentArray = processData(chartData);
+    
+    const alByBarcode = currentArray.filter((item) => Boolean(item.product.get(allergens_tags)));
+    injectHTML(alByBarcode);
+
+    const localData = shapeData(chartData);
+    changeChart(myChart, localData);
+  });
+
 }
 //add event listener
 document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
