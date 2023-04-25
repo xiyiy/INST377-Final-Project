@@ -19,29 +19,31 @@
         <div class="box">
           <div class="left_section">
             <h2>Enter Barcode</h2>
-            <form action="https://world.openfoodfacts.org/api/v0/product/737628064502.json"
-            class="box barcode_form"> 
+            <form class="barcode_form">
+            <!--<form action="https://world.openfoodfacts.org/api/v0/product/737628064502.json"
+            class="barcode_form"> -->
               <div>
                 <label for="barcode"></label>
                 <input type="text" id="barcode" name="barcode"/>
                 <button type="submit">Submit</button>
               </div>  
             </form>
-          </div>
-          <div class="left_section">
+
             <!--Below Barcode-->
             <h2>Enter Allergies</h2>
-            <div class="box" id="allergy_list">
+            <div>
               <label for="al"></label>
               <input type="text" id="al" name="al"/>
               <button type="submit">Submit</button>
             </div>
           </div>
+          <div class="left_section">
             <!--Bar chart-->
             <h3>Products with Allergens </h3>
             <div class="chart_container">
               <canvas id="myChart"></canvas>
             </div>
+          </div>
         </div>
         
         <!--- Right Robot--->
