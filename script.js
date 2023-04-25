@@ -104,7 +104,18 @@ function changeChart(chart, dataObject) {
   chart.update();
 }
 
-function shapeDataForLineChart(array) {
+function shapeData(array) {
+  return array.reduce((collection, item) => {
+    if(!collection[item.product.get(allergens_from_ingredients)]) {
+      collection[item.product.get(allergens_from_ingredients)] = [item]
+    } else {
+      collection[item.product.get(allergens_from_ingredients)].push(item);
+    }
+    return collection;
+  }, {});
+}
+
+/*function shapeDataForLineChart(array) {
   return array.reduce((collection, item) => {
     if(!collection[item.category]) {
       collection[item.category] = [item]
@@ -113,7 +124,7 @@ function shapeDataForLineChart(array) {
     }
     return collection;
   }, {});
-}
+}*/
 
 async function getData() {
   const url = 'https://world.openfoodfacts.org/api/v0/product/737628064502.json';
@@ -128,17 +139,13 @@ async function mainEvent() {
   // the async keyword means we can make API requests
   const form = document.querySelector(".main_form"); // This class name needs to be set on your form before you can listen for an event on it
   const loadDataButton = document.querySelector("#data_load");
-  const clearDataButton = document.querySelector("#data_clear");
-  const generateListButton = document.querySelector("#generate");
+  //const clearDataButton = document.querySelector("#data_clear");
+ // const generateListButton = document.querySelector("#generate");
   const textField = document.querySelector("#resto");
   const chartTarget = document.querySelector('#myChart')
 
   const loadAnimation = document.querySelector("#data_load_animation");
-  //loadAnimation.style.display = "none";
-  //generateListButton.classList.add("hidden");
-
- // const carto = initMap();
-
+ 
   const storedData = localStorage.getItem("storedData");
   let parsedData = JSON.parse(storedData);
   if (parsedData?.length > 0) {
@@ -149,7 +156,7 @@ async function mainEvent() {
 
   /* API data request */
   const chartData = await getData();
-  const shapedData = shapeDataForLineChart(chartData);
+  const shapedData = shapeData(chartData);
   console.log(shapedData);
   const myChart = initChart(chartTarget, shapedData);
 
@@ -182,7 +189,7 @@ async function mainEvent() {
 
     currentList = processRestaurants(chartData);
     injectHTML(currentList);
-    const localData = shapeDataForLineChart(chartData);
+    const localData = shapeData(chartData);
     changeChart(myChart, localData);
 
 });
