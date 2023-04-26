@@ -60,6 +60,7 @@ function injectHTML(list) {
 }*/
 
 function initChart(chart, object) {
+  //gets count of keys
   const labels = Object.keys(object);
   const info = Object.keys(object).map((item) => object[item].length);
 
@@ -98,21 +99,11 @@ function changeChart(chart, dataObject) {
   chart.update();
 }
 
-function shapeData(array) {
+function shapeData(array) { //get length
+
   const ingredientsLen = array.product.ingredients.length
-  
+  const allergensLen = array.product.allergens_tags
 }
-/*
-function shapeData(array) {
-  return array.reduce((collection, item) => {
-    if(!collection[item.category]) {
-      collection[item.category] = [item]
-    } else {
-      collection[item.category].push(item);
-    }
-    return collection;
-  }, {});
-}*/
 
 async function getData(barcode) { //filter data with just code and product
   const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
@@ -137,10 +128,18 @@ async function mainEvent() {
   /*const chartData = await getData("20753030");
   console.log(chartData)*/
 
+
+
+
   /* API data request */
-  const chartData = await getData();
-  //const chartData = await getData("737628064502");
+  //how to do it without hard coding code 
+  //!!!insert parameter into enter barcode to view on console //
+  const chartData = await getData("737628064502");
+  //const chartData = await getData(inputBarcode);
   
+
+
+
   //const shapedData = shapeData(chartData);
   //console.log(shapedData);
   //const myChart = initChart(chartTarget, shapedData);
