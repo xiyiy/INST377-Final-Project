@@ -15,14 +15,14 @@ function injectHTML(list) {
   });
 }
 
-function processData(list, query) {
+/*function processData(list, query) {
   //query is a value user input
   return list.filter((item) => {
     const lowerCaseName = item.name.toLowerCase();
     const lowerCaseQuery = query.toLowerCase();
     return lowerCaseName.includes(lowerCaseQuery); //includes evaluates ==
   });
-}
+}*/
 
 /*function cutRestaurantList(list) {
   console.log("fired cut list");
@@ -98,17 +98,11 @@ function changeChart(chart, dataObject) {
   chart.update();
 }
 
-/*function shapeData(array) {
-  return array.reduce((collection, item) => {
-    if(!collection[item.product.get(allergens_from_ingredients)]) {
-      collection[item.product.get(allergens_from_ingredients)] = [item]
-    } else {
-      collection[item.product.get(allergens_from_ingredients)].push(item);
-    }
-    return collection;
-  }, {});
-}*/
-
+function shapeData(array) {
+  const ingredientsLen = array.product.ingredients.length
+  
+}
+/*
 function shapeData(array) {
   return array.reduce((collection, item) => {
     if(!collection[item.category]) {
@@ -118,14 +112,16 @@ function shapeData(array) {
     }
     return collection;
   }, {});
-}
+}*/
 
-async function getData() { //filter data with just code and product
-  const url = 'https://world.openfoodfacts.org/api/v0/product/${barcode}.json';
-  const data = await fetch(url);
+async function getData(barcode) { //filter data with just code and product
+  const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
+  const data = await fetch(url, {
+    method : "GET"
+  })
   const json = await data.json();
-  const reply = json.filter((item) => Boolean(item.code)).filter((item) => Boolean(item.product));
-  return reply;
+  //const reply = json.filter((item) => Boolean(item.code)).filter((item) => Boolean(item.product));
+  return json;
 }
 
 /* Main Event */
@@ -137,32 +133,44 @@ async function mainEvent() {
   const submitBarcode = document.querySelector("#submitBarcode")
   const submitAl = document.querySelector("#submitAl")
   const chartTarget = document.querySelector('#myChart')
- 
+
+  /*const chartData = await getData("20753030");
+  console.log(chartData)*/
+
   /* API data request */
   const chartData = await getData();
-  const shapedData = shapeData(chartData);
-  console.log(shapedData);
-  const myChart = initChart(chartTarget, shapedData);
+  //const chartData = await getData("737628064502");
+  
+  //const shapedData = shapeData(chartData);
+  //console.log(shapedData);
+  //const myChart = initChart(chartTarget, shapedData);
  
-  const results = await fetch(
+  /*const results = await fetch(
     "https://world.openfoodfacts.org/api/v0/product/${barcode}.json"
   );
   const arrayFromJson = await results.json();
-  console.log(arrayFromJson);
+  console.log(arrayFromJson);*/
+  console.log(chartData.product.ingredients)
+  console.log(chartData.product.allergens_tags)
 
   let currentArray;
   form.addEventListener('submit', (submitEvent) => {
-    submitEvent.preventDefault();
-    currentArray = processData(chartData);
-    
-    const alByBarcode = currentArray.filter((item) => Boolean(item.code));
-    injectHTML(alByBarcode);
+    const barcodeNum = submitEvent.target.value
+    const getBarcode = getData(barcodeNum)
+    console.log(getBarcode);
 
-    const localData = shapeData(chartData);
-    changeChart(myChart, localData);
+    submitEvent.preventDefault();
+    //currentArray = processData(chartData);
+    
+  //  const alByBarcode = currentArray.filter((item) => Boolean(item.code));
+  //  injectHTML(alByBarcode);
+
+  //  const localData = shapeData(chartData);
+  //  changeChart(myChart, localData);
+  //  console.log(arrayFromJson);
   });
 
-  inputBarcode.addEventListener("input", (event) => {
+  /*inputBarcode.addEventListener("input", (event) => {
     //filter does nothing until something exists
     if (!currentArray.length) { return; }
     console.log(currentArray)
@@ -174,7 +182,7 @@ async function mainEvent() {
     if (alByBarcode.length > 0) {
       injectHTML(alByBarcode);
     }
-  });
+  });*/
 
   form.addEventListener('submit', (submitEvent) => {
     submitEvent.preventDefault();
@@ -184,7 +192,7 @@ async function mainEvent() {
     const alByBarcode = currentArray.filter((item) => Boolean(item.product.get(allergens_tags)));
     injectHTML(alByBarcode);
 
-    const localData = shapeData(chartData);
+ //   const localData = shapeData(chartData);
     changeChart(myChart, localData);
   });
 
@@ -196,33 +204,33 @@ async function mainEvent() {
     const alByBarcode = currentArray
       .filter((item) => Boolean(item.product.get(allergens_tags)));
     
-    if (alByBarcode.length > 0) {
-      injectHTML(alByBarcode);
-    }
-  });
+     if (alByBarcode.length > 0) {
+       injectHTML(alByBarcode);
+     }
+   });
 
-  /* testing */
-  form.addEventListener('submit', (submitEvent) => {
-    submitEvent.preventDefault();
+   /* testing 
+   form.addEventListener('submit', (submitEvent) => {
+     submitEvent.preventDefault();
     
-    //barcode submit
-    if(submitEvent.target === submitBarcode){
-      const chartData = await getData()
-    }
-    const inputBarcode = submitEvent.target.elements["barcode"]
-    const inputAl = submitEvent.target.elements["allergy"]
+     //barcode submit
+     if(submitEvent.target === submitBarcode){
+       const chartData = await getData()
+     }
+     const inputBarcode = submitEvent.target.elements["barcode"]
+     const inputAl = submitEvent.target.elements["allergy"]
     
-    if(submitEvent.submitType.name === "submitBarcode"){
-      const barcode = inputBarcode.value;
-    }
-    currentArray = processData(chartData);
+     if(submitEvent.submitType.name === "submitBarcode"){
+       const barcode = inputBarcode.value;
+     }
+     currentArray = processData(chartData);
     
-    const alByBarcode = currentArray.filter((item) => Boolean(item.product.get(allergens_tags)));
-    injectHTML(alByBarcode);
+     const alByBarcode = currentArray.filter((item) => Boolean(item.product.get(allergens_tags)));
+     injectHTML(alByBarcode);
 
-    const localData = shapeData(chartData);
-    changeChart(myChart, localData);
-  });
+     const localData = shapeData(chartData);
+     changeChart(myChart, localData);
+   });*/
 
 }
 //add event listener
