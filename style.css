@@ -74,37 +74,36 @@ form {
   flex:1;
   background-color: #283618;
 }
-
-.header h1 {
-  display: block;
-  /* this will push other blocks out of the way */
+/*header {
+  display: flex;
+  align-items: center;
+}*/
+header {
+  display: flex;
+  align-items: center;
 
   /* colors */
   background-color: #283618;
   color: #FEFAE0;
-  font-weight: bolder;
-  font-size: 58px;
-  /* shapes */
-  border-radius: 6px;
+  
   font-size: 1.5rem;
-  padding: 1.25rem;
+  padding-left: 24px;
   margin: 0; /* margin = 0, the header pins to the top if we move */
+}
 
-
-  /* box-shadows are fancy */
-  box-shadow: 0 2em 1em -0.9em rgb(10 10 10 / 10%), 0 0 0 1px rgb(10 10 10 / 2%);
-
-  border-radius: 4px;
-  flex-direction: row;
+h1 {
+  font-weight: bolder;
+  font-size: 42px;
+  word-spacing: 10px;
+  letter-spacing: 8px;
 }
 
 .box {
   background-color: #283618;
   border-radius: 4px;
 
-  width: fit-content;
   height:fit-content;
-  padding: 1.5rem;
+  padding-top: 0;
   margin: 0 auto;
 }
 
