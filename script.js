@@ -1,9 +1,3 @@
-/*
-  ## Utility Functions
-    Under this comment place any utility functions you need - like an inclusive random number selector
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-*/
-
 function injectHTML(list) {
   console.log("fired injectHTML");
   const target = document.querySelector("#allergy_list");
@@ -24,25 +18,6 @@ function injectHTML(list) {
   });
 }*/
 
-/*function cutRestaurantList(list) {
-  console.log("fired cut list");
-  const range = [...Array(15).keys()]; //makes new array of curr with size 15
-  return (newArray = range.map((item) => {
-    const index = getRandomIntInclusive(0, list.length - 1);
-    return list[index];
-  }));
-}*/
-
-/*function initMap() {
-  const carto = L.map("map").setView([38.98, -76.93], 13);
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution:
-      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(carto);
-  return carto;
-}*/
-
 /*function markerPlace(array, map) {
   console.log("array for markers", array);
 
@@ -60,16 +35,18 @@ function injectHTML(list) {
 }*/
 
 function initChart(chart, object) {
-  //gets count of keys
+  //extracts keys of the object as labels
+  //extracts allergens_tags and ingredients
   const labels = Object.keys(object);
   const info = Object.keys(object).map((item) => object[item].length);
 
   const data = {
     labels: labels,
     datasets: [{
-      label: 'Product Count by Allergen',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
+      label: 'Count of Ingredients and Allergens',
+      backgroundColor: '#283618',
+      //borderColor: 'rgb(254,250,224)',
+      borderWidth: '1',
       data: info
     }]
   };
@@ -77,7 +54,24 @@ function initChart(chart, object) {
   const config = {
     type: 'bar',
     data: data,
-    options: {}
+    options: {
+      //indexAxis: 'y',
+      label: {
+        color: 'rgb(254,250,224)'
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: 'rgb(254,250,224)'
+          }
+        },
+        y: {
+          ticks: {
+            color: 'rgb(254,250,224)'
+          }
+        }
+      },
+    }
   };
 
   return new Chart(
@@ -86,6 +80,7 @@ function initChart(chart, object) {
   );
 
 }
+
 
 function changeChart(chart, dataObject) {
   const labels = Object.keys(dataObject);
@@ -99,17 +94,17 @@ function changeChart(chart, dataObject) {
   chart.update();
 }
 
-function shapeData(array) { //get length
-
-  const ingredientsLen = array.product.ingredients.length
-  const allergensLen = array.product.allergens_tags
+function shapeData(array) { //only get ingredients and allergens no length 
+  const ingredients = array.product.ingredients
+  const allergens = array.product.allergens_tags
 }
 
-async function getData(barcode) { //filter data with just code and product
+async function getData(barcode) {
+  //retrieves product info based on barcode
   const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
   const data = await fetch(url, {
-    method : "GET"
-  })
+    method : "GET",
+  });
   const json = await data.json();
   //const reply = json.filter((item) => Boolean(item.code)).filter((item) => Boolean(item.product));
   return json;
@@ -125,6 +120,7 @@ async function mainEvent() {
   const submitAl = document.querySelector("#submitAl")
   const chartTarget = document.querySelector('#myChart')
 
+  let barcodeNum;
   /*const chartData = await getData("20753030");
   console.log(chartData)*/
 
@@ -134,21 +130,18 @@ async function mainEvent() {
   /* API data request */
   //how to do it without hard coding code 
   //!!!insert parameter into enter barcode to view on console //
+  //const chartData = await getData("737628064502");
   const chartData = await getData("737628064502");
-  //const chartData = await getData(inputBarcode);
   
 
 
+/*
+  const shapedData = shapeData(chartData);
+  console.log(shapedData);
+*/
+  const myChart = initChart(chartTarget, chartData);
+  console.log(myChart)
 
-  //const shapedData = shapeData(chartData);
-  //console.log(shapedData);
-  //const myChart = initChart(chartTarget, shapedData);
- 
-  /*const results = await fetch(
-    "https://world.openfoodfacts.org/api/v0/product/${barcode}.json"
-  );
-  const arrayFromJson = await results.json();
-  console.log(arrayFromJson);*/
   console.log(chartData.product.ingredients)
   console.log(chartData.product.allergens_tags)
 
@@ -156,6 +149,7 @@ async function mainEvent() {
   form.addEventListener('submit', (submitEvent) => {
     const barcodeNum = submitEvent.target.value
     const getBarcode = getData(barcodeNum)
+    //const getBarcode = getData(barcodeNum)
     console.log(getBarcode);
 
     submitEvent.preventDefault();
@@ -169,8 +163,10 @@ async function mainEvent() {
   //  console.log(arrayFromJson);
   });
 
-  /*inputBarcode.addEventListener("input", (event) => {
+  inputBarcode.addEventListener("input", (event) => {
     //filter does nothing until something exists
+    const barcodeNum = submitEvent.target.value
+
     if (!currentArray.length) { return; }
     console.log(currentArray)
 
@@ -181,9 +177,9 @@ async function mainEvent() {
     if (alByBarcode.length > 0) {
       injectHTML(alByBarcode);
     }
-  });*/
+  });
 
-  form.addEventListener('submit', (submitEvent) => {
+  /*form.addEventListener('submit', (submitEvent) => {
     submitEvent.preventDefault();
     currentArray = processData(chartData);
     
@@ -207,30 +203,6 @@ async function mainEvent() {
        injectHTML(alByBarcode);
      }
    });
-
-   /* testing 
-   form.addEventListener('submit', (submitEvent) => {
-     submitEvent.preventDefault();
-    
-     //barcode submit
-     if(submitEvent.target === submitBarcode){
-       const chartData = await getData()
-     }
-     const inputBarcode = submitEvent.target.elements["barcode"]
-     const inputAl = submitEvent.target.elements["allergy"]
-    
-     if(submitEvent.submitType.name === "submitBarcode"){
-       const barcode = inputBarcode.value;
-     }
-     currentArray = processData(chartData);
-    
-     const alByBarcode = currentArray.filter((item) => Boolean(item.product.get(allergens_tags)));
-     injectHTML(alByBarcode);
-
-     const localData = shapeData(chartData);
-     changeChart(myChart, localData);
-   });*/
-
+   */
 }
-//add event listener
 document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
