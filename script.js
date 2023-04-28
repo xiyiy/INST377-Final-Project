@@ -1,10 +1,10 @@
-function injectHTML(list) {
+function injectHTML(list) { //working
   console.log("fired injectHTML");
   const target = document.querySelector("#allergy_list");
   target.innerHTML = "";
 
   list.forEach((item, index) => {
-    const str = `${item.allergens_tags}`; /* `` bring variable in and render as str*/
+    const str = `${item}`; /* `` bring variable in and render as str*/
     target.innerHTML += str;
   });
 }
@@ -38,6 +38,14 @@ function initChart(chart, object) {
   //extracts keys of the object as labels
   //extracts allergens_tags and ingredients
   const labels = Object.keys(object);
+//  const labels = [Object.keys(object.allergens_tags), Object.keys(object.ingredients)];
+  console.log(labels)
+/*
+  const alCount = object.allergens_tags.reduce((acc, curr) => acc + curr.length, 0);
+  const ingCount = object.ingredients.reduce((acc, curr) => acc + curr.length, 0);
+
+const info = [Object.keys(object).map((item) => object[item].length), alCount, ingCount]; */
+
   const info = Object.keys(object).map((item) => object[item].length);
 
   const data = {
@@ -45,7 +53,6 @@ function initChart(chart, object) {
     datasets: [{
       label: 'Count of Ingredients and Allergens',
       backgroundColor: '#283618',
-      //borderColor: 'rgb(254,250,224)',
       borderWidth: '1',
       data: info
     }]
@@ -55,7 +62,7 @@ function initChart(chart, object) {
     type: 'bar',
     data: data,
     options: {
-      //indexAxis: 'y',
+      indexAxis: 'y',
       label: {
         color: 'rgb(254,250,224)'
       },
@@ -96,7 +103,8 @@ function changeChart(chart, dataObject) {
 
 function shapeData(array) { //only get ingredients and allergens no length 
   const ingredients = array.product.ingredients
-  const allergens = array.product.allergens_tags
+  //const allergens = array.product.allergens_tags
+  const allergens = array.product.allergens_tags.filter(tag => tag.startsWith("en:"))
 }
 
 async function getData(barcode) {
@@ -132,18 +140,21 @@ async function mainEvent() {
   //!!!insert parameter into enter barcode to view on console //
   //const chartData = await getData("737628064502");
   const chartData = await getData("737628064502");
+  console.log(chartData)
   
-
-
-/*
   const shapedData = shapeData(chartData);
   console.log(shapedData);
+
+/*
+  
 */
   const myChart = initChart(chartTarget, chartData);
-  console.log(myChart)
+  //console.log(myChart)
 
   console.log(chartData.product.ingredients)
   console.log(chartData.product.allergens_tags)
+
+  injectHTML(chartData.product.allergens_tags)
 
   let currentArray;
   form.addEventListener('submit', (submitEvent) => {
@@ -190,19 +201,19 @@ async function mainEvent() {
  //   const localData = shapeData(chartData);
     changeChart(myChart, localData);
   });
-
+*/
   inputAl.addEventListener("input", (event) => {
     if (!currentArray.length) { return; }
     console.log(currentArray)
 
     //filter by allergens_tags
     const alByBarcode = currentArray
-      .filter((item) => Boolean(item.product.get(allergens_tags)));
+      .filter((item) => Boolean(item.product.allergens_tags));
     
      if (alByBarcode.length > 0) {
        injectHTML(alByBarcode);
      }
    });
-   */
+   
 }
 document.addEventListener("DOMContentLoaded", async () => mainEvent()); // the async keyword means we can make API requests
