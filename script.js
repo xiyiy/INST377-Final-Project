@@ -107,9 +107,9 @@ function shapeData(array) { //only get ingredients and allergens no length
   const allergens = array.product.allergens_tags.filter(tag => tag.startsWith("en:"))
 }
 
-async function getData(barcode) {
+async function getData(barcodeNum) {
   //retrieves product info based on barcode
-  const url = `https://world.openfoodfacts.org/api/v0/product/${barcode}.json`;
+  const url = `https://world.openfoodfacts.org/api/v0/product/${barcodeNum}.json`;
   const data = await fetch(url, {
     method : "GET",
   });
@@ -128,8 +128,8 @@ async function mainEvent() {
   const submitAl = document.querySelector("#submitAl")
   const chartTarget = document.querySelector('#myChart')
 
-  submitBarcode.addEventListener("submit", (event) => {
-    event.preventDefault();
+  submitBarcode.addEventListener("click", async (submitEvent) => {
+    submitEvent.preventDefault();
     console.log("retrieve bracode")
 
     // Convert form into FormData object
@@ -145,13 +145,13 @@ async function mainEvent() {
     //how to do it without hard coding code 
     //!!!insert parameter into enter barcode to view on console //
     //const chartData = await getData("737628064502");
-    const chartData = getData(barcodeNum);
+    const chartData = await getData(barcodeNum);
     console.log(chartData)
     
-    const shapedData = shapeData(chartData);
+    /*const shapedData = shapeData(chartData);
     console.log(shapedData);
 
-    const myChart = initChart(chartTarget, chartData);
+    const myChart = initChart(chartTarget, chartData);*/
   });
 
 /*
