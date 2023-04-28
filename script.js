@@ -128,34 +128,44 @@ async function mainEvent() {
   const submitAl = document.querySelector("#submitAl")
   const chartTarget = document.querySelector('#myChart')
 
-  let barcodeNum;
-  /*const chartData = await getData("20753030");
-  console.log(chartData)*/
+  submitBarcode.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log("retrieve bracode")
 
+    // Convert form into FormData object
+    const formData = new FormData(form);
+    const formProps = Object.fromEntries(formData);
+    
+    let barcodeNum = formProps.barcode;
+    console.log(barcodeNum);
+    /*const chartData = await getData("20753030");
+    console.log(chartData)*/
 
+    /* API data request */
+    //how to do it without hard coding code 
+    //!!!insert parameter into enter barcode to view on console //
+    //const chartData = await getData("737628064502");
+    const chartData = getData(barcodeNum);
+    console.log(chartData)
+    
+    const shapedData = shapeData(chartData);
+    console.log(shapedData);
 
-
-  /* API data request */
-  //how to do it without hard coding code 
-  //!!!insert parameter into enter barcode to view on console //
-  //const chartData = await getData("737628064502");
-  const chartData = await getData("737628064502");
-  console.log(chartData)
-  
-  const shapedData = shapeData(chartData);
-  console.log(shapedData);
+    const myChart = initChart(chartTarget, chartData);
+  });
 
 /*
   
 */
-  const myChart = initChart(chartTarget, chartData);
+  
   //console.log(myChart)
 
-  console.log(chartData.product.ingredients)
-  console.log(chartData.product.allergens_tags)
+  //console.log(chartData.product.ingredients)
+  //console.log(chartData.product.allergens_tags)
 
-  injectHTML(chartData.product.allergens_tags)
+  //injectHTML(chartData.product.allergens_tags)
 
+  /*
   let currentArray;
   form.addEventListener('submit', (submitEvent) => {
     const barcodeNum = submitEvent.target.value
@@ -173,10 +183,11 @@ async function mainEvent() {
   //  changeChart(myChart, localData);
   //  console.log(arrayFromJson);
   });
+*/ 
 
-  inputBarcode.addEventListener("input", (event) => {
+  /*inputBarcode.addEventListener("input", (event) => {
     //filter does nothing until something exists
-    const barcodeNum = submitEvent.target.value
+    //const barcodeNum = submitEvent.target.value
 
     if (!currentArray.length) { return; }
     console.log(currentArray)
@@ -189,6 +200,7 @@ async function mainEvent() {
       injectHTML(alByBarcode);
     }
   });
+*/
 
   /*form.addEventListener('submit', (submitEvent) => {
     submitEvent.preventDefault();
