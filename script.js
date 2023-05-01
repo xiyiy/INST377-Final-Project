@@ -34,7 +34,7 @@ function injectHTML(list) { //working
   });
 }*/
 
-function initChart(chart, object) {
+/*function initChart(chart, object) {
   //extracts keys of the object as labels
   //extracts allergens_tags and ingredients
   const labels = Object.keys(object);
@@ -44,7 +44,7 @@ function initChart(chart, object) {
   const alCount = object.allergens_tags.reduce((acc, curr) => acc + curr.length, 0);
   const ingCount = object.ingredients.reduce((acc, curr) => acc + curr.length, 0);
 
-const info = [Object.keys(object).map((item) => object[item].length), alCount, ingCount]; */
+  const info = [Object.keys(object).map((item) => object[item].length), alCount, ingCount]; 
 
   const info = Object.keys(object).map((item) => object[item].length);
 
@@ -59,7 +59,7 @@ const info = [Object.keys(object).map((item) => object[item].length), alCount, i
   };
 
   const config = {
-    type: 'bar',
+    type: 'pie',
     data: data,
     options: {
       indexAxis: 'y',
@@ -86,7 +86,73 @@ const info = [Object.keys(object).map((item) => object[item].length), alCount, i
     config
   );
 
+}*/
+
+
+function initChart(chart, object) {
+  //const ingredients = object.ingredients;
+  //extracts keys of the object as labels
+  //extracts allergens_tags and ingredients
+  //const labels = Object.keys(object).filter((item) => object[item].product.ingredients.id);
+  //const labels = Object.keys(object.ingredients);
+
+  const ingredients = object.product.ingredients.filter((item) => item.percent_estimate !== undefined);
+  const labels = ingredients.map((item) => item.text);
+  
+  //const labels = Object.keys(object.ingredients);
+  console.log(labels)
+
+  const info = ingredients.map((item) => item.percent_estimate);
+
+  //const info = Object.values(object.ingredients).map((item) => item.percent_estimate)
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Ingredients',
+      backgroundColor: '#283618',
+      //borderWidth: '1',
+      data: info
+    }]
+  };
+
+  const config = {
+    type: 'pie',
+    data: data,
+    options: {
+      responsive: true,
+      title: {
+        display: true,
+        text: "Ingredients",
+      },
+      legend: {
+        display: true,
+      },
+      label: {
+        color: 'rgb(254,250,224)',
+      },
+      /*scales: {
+        x: {
+          ticks: {
+            color: 'rgb(254,250,224)'
+          }
+        },
+        y: {
+          ticks: {
+            color: 'rgb(254,250,224)'
+          }
+        }*/
+    },
+  };
+
+  return new Chart(
+    chart,
+    config
+  );
+
 }
+
+
 
 
 function changeChart(chart, dataObject) {
@@ -130,7 +196,6 @@ async function mainEvent() {
 
   submitBarcode.addEventListener("click", async (submitEvent) => {
     submitEvent.preventDefault();
-    console.log("retrieve bracode")
 
     // Convert form into FormData object
     const formData = new FormData(form);
@@ -147,11 +212,13 @@ async function mainEvent() {
     //const chartData = await getData("737628064502");
     const chartData = await getData(barcodeNum);
     console.log(chartData)
-    
-    const shapedData = shapeData(chartData);
-    console.log(shapedData);
 
     const myChart = initChart(chartTarget, chartData);
+    
+    //const shapedData = shapeData(chartData);
+    //console.log("shapedData");
+
+    
 
     console.log(chartData.product.ingredients)
     console.log(chartData.product.allergens_tags)
