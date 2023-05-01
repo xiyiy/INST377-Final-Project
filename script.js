@@ -148,22 +148,20 @@ async function mainEvent() {
     const chartData = await getData(barcodeNum);
     console.log(chartData)
     
-    /*const shapedData = shapeData(chartData);
+    const shapedData = shapeData(chartData);
     console.log(shapedData);
 
-    const myChart = initChart(chartTarget, chartData);*/
+    const myChart = initChart(chartTarget, chartData);
+
+    console.log(chartData.product.ingredients)
+    console.log(chartData.product.allergens_tags)
+
+    injectHTML(chartData.product.ingredients_text_debug)
   });
 
-/*
-  
-*/
-  
-  //console.log(myChart)
 
-  //console.log(chartData.product.ingredients)
-  //console.log(chartData.product.allergens_tags)
+  
 
-  //injectHTML(chartData.product.allergens_tags)
 
   /*
   let currentArray;
