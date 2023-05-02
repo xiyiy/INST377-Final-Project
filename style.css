@@ -271,5 +271,11 @@ form label {
 .chart_container {
   height: 350x;
   width: 600px;
+}
 
+div .chartBox {
+  align-content: r;
+  color: #FEFAE0;
+  font-style: italic;
+  font-family: 'IBM Plex Mono';
 }

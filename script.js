@@ -1,4 +1,4 @@
-function injectHTML(list) { //working
+function injectHTML(list) { 
   console.log("fired injectHTML");
   const target = document.querySelector("#allergy_list");
   target.innerHTML = "";
@@ -92,8 +92,10 @@ function initChart(chart, object) {
         },
         legend: {
           align: 'center',
+          position: 'bottom',
           labels: {
             color: '#FEFAE0',
+            
           }
         },
       },
