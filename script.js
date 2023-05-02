@@ -89,19 +89,18 @@ function initChart(chart, object) {
           fontStyle: 'bolder',
           position: 'outside',
           textMargin: 10
-        }
+        },
+        legend: {
+          align: 'center',
+          labels: {
+            color: '#FEFAE0',
+          }
+        },
       },
       responsive: true,
       title: {
         display: true,
         text: "% of Ingredients",
-      },
-      legend: {
-        display: true,
-      },
-      label: {
-        fontColor: '#FEFAE0',
-        color: 'rgb(254,250,224)',
       },
     },
     plugins: [ChartDataLabels]
