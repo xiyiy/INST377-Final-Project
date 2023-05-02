@@ -58,16 +58,16 @@ function initChart(chart, object) {
     datasets: [{
       label: '% of Ingredients',
       backgroundColor: [
-        '#283618',
-        '#2E4436', 
-        '#355E3B',
-        '#487D49',
-        '#5F9E5D',
-        '#74B16B',
-        '#8AC47A',
-        '#A1D78A',
-        '#B8E19A',
-        '#CEEAB0'
+        '#277da1',
+        '#577590', 
+        '#4d908e',
+        '#43aa8b',
+        '#90be6d',
+        '#f9c74f',
+        '#f9844a',
+        '#f8961e',
+        '#f3722c',
+        '#f94144'
       ],
       //backgroundColor: ['#283618', '#ffa600', '#ff6361','#bc5090','#58508d','#003f5c'],
       borderWidth: 2,
