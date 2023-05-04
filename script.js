@@ -166,6 +166,34 @@ async function getData(barcodeNum) {
   return json;
 }
 
+
+
+function updateChart(myChart, filteredIngredients, allergy) {
+  /*const ingredients = myChart.product.ingredients
+  const labels = ingredients.map((item) => item.text);
+  const percentages = ingredients.map((item) => Math.round(item.percent_estimate * 100) / 100);
+  */
+
+  const labels = filteredIngredients.map(ingredient => ingredient.text);
+  console.log(labels)
+  const percentages = filteredIngredients.map(ingredient => ingredient.percent_estimate);
+  console.log(percentages)
+
+  myChart.data.datasets[0].label = `Composition of ${allergy}`;
+
+  // Updates the chart's labels based on the filtered ingredients
+  myChart.data.labels = labels;
+
+  // Updates the chart's data points based on the filtered ingredients
+  myChart.data.datasets[0].data = percentages;
+
+  // updates the chart
+  myChart.update();
+}
+
+
+
+
 /* Main Event */
 async function mainEvent() {
   // the async keyword means we can make API requests
@@ -241,6 +269,24 @@ async function mainEvent() {
 
     console.log(storedList);
 
+
+
+
+    const ingredients = chartData.product.ingredients;
+    console.log(ingredients)
+
+    const filteredIngredients = ingredients.filter(ingredient => {
+      return ingredient.text.toLowerCase().includes(allergy.toLowerCase());
+    });
+    console.log(filteredIngredients)
+
+    updateChart(myChart, filteredIngredients, allergy);
+
+
+
+
+
+
     //???changechart
     /*if (chartData.product.allergens_tags.includes(allergy)) {
       //gets pie chart with just allergen and percent of ingredients in product
@@ -251,7 +297,7 @@ async function mainEvent() {
       console.log("false")
       const myChart = initChart(chartTarget, chartData); 
     }
-    */
+    
     const { text: text }  = getIngre(chartData.product.ingredients)
     console.log("Ingredients to compare allergy with");
     console.log(text);
@@ -268,6 +314,9 @@ async function mainEvent() {
         initChart(myChart, chartData); 
       }
     })
+    */
+
+    
     
   });
 
