@@ -252,7 +252,10 @@ async function mainEvent() {
       const myChart = initChart(chartTarget, chartData); 
     }
     */
-    const { text: text }  = getIngre(object.product.ingredients)
+    const { text: text }  = getIngre(chartData.product.ingredients)
+    console.log("Ingredients to compare allergy with");
+    console.log(text);
+
     text.forEach((item) => {
       if (item == allergy) {
         console.log("true")
