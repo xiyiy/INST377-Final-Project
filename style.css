@@ -131,6 +131,19 @@ h1 {
   margin-bottom: 5px;
 }
 
+.clear_data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ 
+  
+}
+
+.data_clear{
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
 /* .carousel_item, */
 .hidden {
   display: none;
@@ -209,6 +222,7 @@ div .alertBox {
 button {
   background-color: #FEFAE0;
   color: #283618;
+  cursor: pointer;
 }
 
 form input {
