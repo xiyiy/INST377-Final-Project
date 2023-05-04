@@ -143,6 +143,18 @@ function changeChart(chart, dataObject) {
   chart.update();
 }
 
+function shapeDataForLineChart(array) {
+  //reduce can restructure data into a different shape
+  return array.reduce((collection, item) => {
+    if(!collection[item.category]) {
+      collection[item.category] = [item]
+    } else {
+      collection[item.category].push(item);
+    }
+    return collection;
+  }, {});
+}
+
 async function getData(barcodeNum) {
   //retrieves product info based on barcode
   const url = `https://world.openfoodfacts.org/api/v0/product/${barcodeNum}.json`;
@@ -201,7 +213,7 @@ async function mainEvent() {
     console.log(chartData.product.allergens_tags)
   });
 
-  
+
 
 
   //click submit for enter allergy
@@ -240,16 +252,18 @@ async function mainEvent() {
       const myChart = initChart(chartTarget, chartData); 
     }
     */
+    //let allergyFound = false;
     chartData.product.allergens_tags.forEach((item) => {
       const itemEn = `en:"${allergy}"`
       if (item == itemEn) {
         console.log("true")
         //gets pie chart with just allergen and percent of ingredients in product
-        const alChart = changeChart(chartTarget, chartData); 
-        injectHTML(chartData.product.allergens_tags)
+        changeChart(myChart, chartData); 
+        injectHTML(chartData.product.allergens_tags);
+        //allergyFound = true;
       } else {
         console.log("false")
-        const ingChart = initChart(chartTarget, chartData); 
+        initChart(myChart, chartData); 
       }
     })
     
