@@ -252,10 +252,9 @@ async function mainEvent() {
       const myChart = initChart(chartTarget, chartData); 
     }
     */
-    //let allergyFound = false;
-    chartData.product.allergens_tags.forEach((item) => {
-      const itemEn = `en:"${allergy}"`
-      if (item == itemEn) {
+    const { text: text }  = getIngre(object.product.ingredients)
+    text.forEach((item) => {
+      if (item == allergy) {
         console.log("true")
         //gets pie chart with just allergen and percent of ingredients in product
         changeChart(myChart, chartData); 
