@@ -169,7 +169,7 @@ async function getData(barcodeNum) {
 
 
 function updateChart(myChart, filteredIngredients, allergy) {
-  /*const ingredients = myChart.product.ingredients
+  /*const ingredients = myChart.product
   const labels = ingredients.map((item) => item.text);
   const percentages = ingredients.map((item) => Math.round(item.percent_estimate * 100) / 100);
   */
@@ -271,21 +271,19 @@ async function mainEvent() {
 
 
 
-
+    //filter based on filtered ingredients and allergy input
     const ingredients = chartData.product.ingredients;
     console.log(ingredients)
 
     const filteredIngredients = ingredients.filter(ingredient => {
-      return ingredient.text.toLowerCase().includes(allergy.toLowerCase());
+      return ingredient.text.toLowerCase() === (allergy.toLowerCase());
     });
     console.log(filteredIngredients)
 
     updateChart(myChart, filteredIngredients, allergy);
 
 
-
-
-
+  
 
     //???changechart
     /*if (chartData.product.allergens_tags.includes(allergy)) {
@@ -317,8 +315,8 @@ async function mainEvent() {
     */
 
     
-    
-  });
+    });
+ 
 
     
 
