@@ -119,7 +119,7 @@ function initChart(chart) { //chart, object
 }
 
 
-function changeChart(chart, dataObject) {
+function changeBarcodeChart(chart, object) {
   const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
 
   chart.data.labels = text; 
@@ -154,30 +154,27 @@ async function getData(barcodeNum) {
 }
 
 
-
-function updateChart(myChart, object) { //myChart, filteredIngredients, allergy
-  const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
-  /*const labels = filteredIngredients.map(ingredient => ingredient.text);
+function changeAllergyChart(myChart, filteredIngredients, allergy) { //myChart, filteredIngredients, allergy
+  //const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
+  const labels = filteredIngredients.map(ingredient => ingredient.text);
   console.log(labels)
   const percentages = filteredIngredients.map(ingredient => ingredient.percent_estimate);
-  console.log(percentages)*/
+  console.log(percentages)
 
-  console.log(text);
-  console.log(percentEstimates);
+  //console.log(text);
+  //console.log(percentEstimates);
 
  // myChart.data.datasets[0].label = `Composition of ${allergy}`;
 
   // Updates the chart's labels based on the filtered ingredients
-  myChart.data.labels = text;
+  myChart.data.labels = labels;
 
   // Updates the chart's data points based on the filtered ingredients
-  myChart.data.datasets[0].data = percentEstimates;
+  myChart.data.datasets[0].data = percentages;
 
   // updates the chart
   myChart.update();
 }
-
-
 
 
 /* Main Event */
@@ -217,7 +214,7 @@ async function mainEvent() {
 
     console.log(storedList);
 
-    updateChart(myChart, chartData);
+    changeBarcodeChart(myChart, chartData);
 
     console.log(chartData.product.ingredients)
     console.log(chartData.product.allergens_tags)
@@ -229,7 +226,10 @@ async function mainEvent() {
   //click submit for enter allergy
   submitAl.addEventListener("click", async (submitEvent) => {
     submitEvent.preventDefault();
-    const allergy = submitEvent.target.value
+
+    //allergy input
+    const allergy = inputAl.value
+    //const allergy = submitEvent.target.value
 
     // Convert form into FormData object
     const formData = new FormData(form);
@@ -255,11 +255,11 @@ async function mainEvent() {
     console.log(ingredients)
 
     const filteredIngredients = ingredients.filter(ingredient => {
-      return ingredient.text.toLowerCase() === (allergy.toLowerCase());
+      return ingredient.text.toLowerCase().includes(allergy.toLowerCase());
     });
-    console.log(filteredIngredients)
+    console.log(filteredIngredients) //nothing
 
-    updateChart(myChart, filteredIngredients, allergy);
+    changeAllergyChart(myChart, filteredIngredients, allergy);
 
   });
   
