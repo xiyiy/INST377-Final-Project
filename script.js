@@ -50,17 +50,15 @@ function getIngre(ingredients) {
   return { text: result, percentEstimates: percentEstimates };
 }
 
-function initChart(chart, object) {
-  //extracts keys of the object as labels
-  //extracts allergens_tags and ingredients
+function initChart(chart) { //chart, object
 
-  const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
+  //const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
   
   //console.log(text);
   //console.log(percentEstimates);
 
   const data = {
-    labels: text,
+    labels: [],
     datasets: [{
       label: '% of Ingredients',
       backgroundColor: [
@@ -76,7 +74,7 @@ function initChart(chart, object) {
         '#f94144'
       ],
       borderWidth: 2,
-      data: percentEstimates
+      data: [],
     }]
   };
 
@@ -157,19 +155,23 @@ async function getData(barcodeNum) {
 
 
 
-function updateChart(myChart, filteredIngredients, allergy) {
-  const labels = filteredIngredients.map(ingredient => ingredient.text);
+function updateChart(myChart, object) { //myChart, filteredIngredients, allergy
+  const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
+  /*const labels = filteredIngredients.map(ingredient => ingredient.text);
   console.log(labels)
   const percentages = filteredIngredients.map(ingredient => ingredient.percent_estimate);
-  console.log(percentages)
+  console.log(percentages)*/
 
-  myChart.data.datasets[0].label = `Composition of ${allergy}`;
+  console.log(text);
+  console.log(percentEstimates);
+
+ // myChart.data.datasets[0].label = `Composition of ${allergy}`;
 
   // Updates the chart's labels based on the filtered ingredients
-  myChart.data.labels = labels;
+  myChart.data.labels = text;
 
   // Updates the chart's data points based on the filtered ingredients
-  myChart.data.datasets[0].data = percentages;
+  myChart.data.datasets[0].data = percentEstimates;
 
   // updates the chart
   myChart.update();
@@ -189,7 +191,7 @@ async function mainEvent() {
   const clearDataButton = document.querySelector("#data_clear");
   
   const chartTarget = document.querySelector('#myChart'); //reference to the html
-
+  const myChart = initChart(chartTarget);
 
   //localStorage
   const storedData = localStorage.getItem("storedData");
@@ -215,7 +217,7 @@ async function mainEvent() {
 
     console.log(storedList);
 
-    const myChart = initChart(chartTarget, chartData);
+    updateChart(myChart, chartData);
 
     console.log(chartData.product.ingredients)
     console.log(chartData.product.allergens_tags)
@@ -260,6 +262,8 @@ async function mainEvent() {
     updateChart(myChart, filteredIngredients, allergy);
 
   });
+  
+  //about me
  
   
   
