@@ -9,31 +9,6 @@ function injectHTML(list) {
   });
 }
 
-/*function processData(list, query) {
-  //query is a value user input
-  return list.filter((item) => {
-    const lowerCaseName = item.name.toLowerCase();
-    const lowerCaseQuery = query.toLowerCase();
-    return lowerCaseName.includes(lowerCaseQuery); //includes evaluates ==
-  });
-}*/
-
-/*function markerPlace(array, map) {
-  console.log("array for markers", array);
-
-  map.eachLayer((layer) => {
-    if (layer instanceof L.Marker) {
-      layer.remove();
-    }
-  });
-
-  array.forEach((item) => {
-    console.log("Barcode", item);
-    const { coordinates } = item.code;
-    L.marker([coordinates[1], coordinates[0]]).addTo(map);
-  });
-}*/
-
 
 function getIngre(ingredients) {
   const result = [];
@@ -50,12 +25,9 @@ function getIngre(ingredients) {
   return { text: result, percentEstimates: percentEstimates };
 }
 
-function initChart(chart) { //chart, object
 
-  //const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
-  
-  //console.log(text);
-  //console.log(percentEstimates);
+function initChart(chart) {
+//declaring an empty chart with no labels or data
 
   const data = {
     labels: [],
@@ -130,17 +102,25 @@ function changeBarcodeChart(chart, object) {
   chart.update();
 }
 
-function shapeDataForLineChart(array) {
-  //reduce can restructure data into a different shape
-  return array.reduce((collection, item) => {
-    if(!collection[item.category]) {
-      collection[item.category] = [item]
-    } else {
-      collection[item.category].push(item);
-    }
-    return collection;
-  }, {});
+
+function changeAllergyChart(myChart, filteredIngredients, allergy) { 
+  const labels = filteredIngredients.map(ingredient => ingredient.text);
+  console.log(labels)
+  const percentages = filteredIngredients.map(ingredient => ingredient.percent_estimate);
+  console.log(percentages)
+
+  myChart.data.datasets[0].label = `Composition of ${allergy}`;
+
+  // Updates the chart's labels based on the filtered ingredients
+  myChart.data.labels = labels;
+
+  // Updates the chart's data points based on the filtered ingredients
+  myChart.data.datasets[0].data = percentages;
+
+  // updates the chart
+  myChart.update();
 }
+
 
 async function getData(barcodeNum) {
   //retrieves product info based on barcode
@@ -154,40 +134,17 @@ async function getData(barcodeNum) {
 }
 
 
-function changeAllergyChart(myChart, filteredIngredients, allergy) { //myChart, filteredIngredients, allergy
-  //const { text: text, percentEstimates }  = getIngre(object.product.ingredients)
-  const labels = filteredIngredients.map(ingredient => ingredient.text);
-  console.log(labels)
-  const percentages = filteredIngredients.map(ingredient => ingredient.percent_estimate);
-  console.log(percentages)
-
-  //console.log(text);
-  //console.log(percentEstimates);
-
- // myChart.data.datasets[0].label = `Composition of ${allergy}`;
-
-  // Updates the chart's labels based on the filtered ingredients
-  myChart.data.labels = labels;
-
-  // Updates the chart's data points based on the filtered ingredients
-  myChart.data.datasets[0].data = percentages;
-
-  // updates the chart
-  myChart.update();
-}
-
-
 /* Main Event */
 async function mainEvent() {
   // the async keyword means we can make API requests
   const form = document.querySelector("#main_form"); 
-  const inputBarcode = document.querySelector("#barcode");
   const inputAl = document.querySelector("#al");
   const submitBarcode = document.querySelector("#submitBarcode")
   const submitAl = document.querySelector("#submitAl")
   const clearDataButton = document.querySelector("#data_clear");
   
-  const chartTarget = document.querySelector('#myChart'); //reference to the html
+  //reference to the html location
+  const chartTarget = document.querySelector('#myChart'); 
   const myChart = initChart(chartTarget);
 
   //localStorage
@@ -205,11 +162,10 @@ async function mainEvent() {
     console.log(barcodeNum);
 
     /* API data request */
-    //const chartData = await getData("737628064502");
     const chartData = await getData(barcodeNum);
 
     //localStorage setItem
-    const storedList = chartData; //???how to check if this is correct 
+    const storedList = chartData;
     localStorage.setItem("storedData", JSON.stringify(storedList));
 
     console.log(storedList);
@@ -229,7 +185,6 @@ async function mainEvent() {
 
     //allergy input
     const allergy = inputAl.value
-    //const allergy = submitEvent.target.value
 
     // Convert form into FormData object
     const formData = new FormData(form);
@@ -239,28 +194,22 @@ async function mainEvent() {
     console.log(barcodeNum);
 
     /* API data request */
-    //const chartData = await getData("737628064502");
     const chartData = await getData(barcodeNum);
 
-    //localStorage setItem
-    const storedList = chartData; //???how to check if this is correct 
+    const storedList = chartData;
     localStorage.setItem("storedData", JSON.stringify(storedList));
-
-    console.log(storedList);
-
-
+    //console.log(storedList);
 
     //filter based on filtered ingredients and allergy input
     const ingredients = chartData.product.ingredients;
-    console.log(ingredients)
+    //console.log(ingredients)
 
     const filteredIngredients = ingredients.filter(ingredient => {
       return ingredient.text.toLowerCase().includes(allergy.toLowerCase());
     });
-    console.log(filteredIngredients) //nothing
+    console.log(filteredIngredients)
 
     changeAllergyChart(myChart, filteredIngredients, allergy);
-
   });
   
   //about me
