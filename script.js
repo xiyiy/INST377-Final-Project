@@ -3,10 +3,15 @@ function injectHTML(list) {
   const target = document.querySelector("#allergy_list");
   target.innerHTML = "";
 
-  list.forEach((item, index) => {
-    const str = `${item.substring(3)}`; /* `` bring variable in and render as str*/
+  list.forEach((item) => {
+    const str = `${item.text}`; /* `` bring variable in and render as str*/
     target.innerHTML += str;
   });
+}
+
+function noAllergy() { 
+  const target = document.querySelector("#allergy_list");
+  target.innerHTML += "Allergen Not Found";
 }
 
 
@@ -58,13 +63,13 @@ function initChart(chart) {
         padding: 15
       },
       plugins: {
-        labels: {
+        /*labels: {
           render: 'percentage',
           fontColor: '#FEFAE0',
           fontStyle: 'bolder',
           position: 'outside',
           textMargin: 10
-        },
+        },*/
         legend: {
           align: 'center',
           position: 'bottom',
@@ -80,7 +85,7 @@ function initChart(chart) {
         text: "% of Ingredients",
       },
     },
-    plugins: [ChartDataLabels]
+    //plugins: [ChartDataLabels]
   };
 
   return new Chart(
@@ -106,6 +111,7 @@ function changeBarcodeChart(chart, object) {
 function changeAllergyChart(myChart, filteredIngredients, allergy) { 
   const labels = filteredIngredients.map(ingredient => ingredient.text);
   console.log(labels)
+
   const percentages = filteredIngredients.map(ingredient => ingredient.percent_estimate);
   console.log(percentages)
 
@@ -142,6 +148,7 @@ async function mainEvent() {
   const submitBarcode = document.querySelector("#submitBarcode")
   const submitAl = document.querySelector("#submitAl")
   const clearDataButton = document.querySelector("#data_clear");
+  const chartArea = document.querySelector("#hidden")
   
   //reference to the html location
   const chartTarget = document.querySelector('#myChart'); 
@@ -149,6 +156,7 @@ async function mainEvent() {
 
   //localStorage
   const storedData = localStorage.getItem("storedData");
+
 
   //click submit for enter barcode
   submitBarcode.addEventListener("click", async (submitEvent) => {
@@ -167,16 +175,15 @@ async function mainEvent() {
     //localStorage setItem
     const storedList = chartData;
     localStorage.setItem("storedData", JSON.stringify(storedList));
-
     console.log(storedList);
+
+    chartArea.classList.remove("hidden");
 
     changeBarcodeChart(myChart, chartData);
 
     console.log(chartData.product.ingredients)
-    console.log(chartData.product.allergens_tags)
+    //console.log(chartData.product.allergens_tags)
   });
-
-
 
 
   //click submit for enter allergy
@@ -207,14 +214,19 @@ async function mainEvent() {
     const filteredIngredients = ingredients.filter(ingredient => {
       return ingredient.text.toLowerCase().includes(allergy.toLowerCase());
     });
-    console.log(filteredIngredients)
+
+    if(filteredIngredients.length > 0){
+      injectHTML(filteredIngredients);
+      chartArea.classList.remove("hidden");
+    } else {
+      noAllergy();
+      chartArea.classList.add("hidden");
+    }
+    
 
     changeAllergyChart(myChart, filteredIngredients, allergy);
   });
-  
-  //about me
- 
-  
+
   
   //click clear data button
   clearDataButton.addEventListener("click", (event) => {
