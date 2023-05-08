@@ -14,7 +14,6 @@ function noAllergy() {
   target.innerHTML += "Allergen Not Found";
 }
 
-
 function getIngre(ingredients) {
   const result = [];
   const percentEstimates = [];
@@ -127,6 +126,11 @@ function changeAllergyChart(myChart, filteredIngredients, allergy) {
   myChart.update();
 }
 
+function changeBGColor() {
+  const speechBubble = document.querySelector("#bubble")
+  speechBubble.style.backgroundColor = "#ff0000"
+}
+
 
 async function getData(barcodeNum) {
   //retrieves product info based on barcode
@@ -149,6 +153,9 @@ async function mainEvent() {
   const submitAl = document.querySelector("#submitAl")
   const clearDataButton = document.querySelector("#data_clear");
   const chartArea = document.querySelector("#hidden")
+
+  const hiddenText1 = document.querySelector("#hiddenText1")
+  const hiddenText2 = document.querySelector("#hiddenText2")
   
   //reference to the html location
   const chartTarget = document.querySelector('#myChart'); 
@@ -157,7 +164,8 @@ async function mainEvent() {
   //localStorage
   const storedData = localStorage.getItem("storedData");
 
-
+  hiddenText1.classList.remove("hidden");
+  
   //click submit for enter barcode
   submitBarcode.addEventListener("click", async (submitEvent) => {
     submitEvent.preventDefault();
@@ -178,6 +186,7 @@ async function mainEvent() {
     console.log(storedList);
 
     chartArea.classList.remove("hidden");
+    //hiddenText1.classList.remove("hidden");
 
     changeBarcodeChart(myChart, chartData);
 
@@ -218,6 +227,9 @@ async function mainEvent() {
     if(filteredIngredients.length > 0){
       injectHTML(filteredIngredients);
       chartArea.classList.remove("hidden");
+      changeBGColor();
+      hiddenText1.classList.add("hidden");
+      hiddenText2.classList.remove("hidden");
     } else {
       noAllergy();
       chartArea.classList.add("hidden");

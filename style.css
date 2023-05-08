@@ -116,12 +116,12 @@ h1 {
 }
 
 .right_section {
- 
   flex: 1 2 auto;
   margin: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: sticky;
 }
 
 .subtitle {
@@ -166,20 +166,20 @@ h1 {
       calc(var(--r)/-2) calc(var(--r)/-2) padding-box, 
     radial-gradient(50% 50%,#000 98%,#0000 101%) 
       0 0/var(--r) var(--r) space padding-box;
-  background-color: #ff0000;
+  background-color:#606C38;
 }
 
 .left {
   --_d: 0%;
   border-left: var(--t) solid #0000;
-  margin-right: var(--t);
   place-self: end;
 }
 
 
 .alertBox {
-  background-color: #ff0000;
-  border-radius: 4px;
+  color: #FEFAE0;
+  font-style: italic;
+  font-family: 'IBM Plex Mono';
 
   width: fit-content;
   height:fit-content;
