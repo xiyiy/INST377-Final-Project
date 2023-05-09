@@ -52,13 +52,6 @@ form {
 
 }
 
-/*
-  - These styles use 'class names'
-  - You can apply them by using the 'class' attribute on your HTML
-  - like this: <div class="wrapper">
-  - note that the period vanishes there!
-*/
-
 .wrapper {
   min-height: 100vh;
   display: flex;
@@ -75,18 +68,11 @@ form {
   flex:1;
   
 }
-/*header {
-  display: flex;
-  align-items: center;
-}*/
+
 header {
   display: flex;
   align-items: center;
-
-  /* colors */
-  
   color: #FEFAE0;
-  
   font-size: 1.5rem;
   padding-left: 24px;
   margin: 0; /* margin = 0, the header pins to the top if we move */
@@ -99,12 +85,12 @@ h1 {
   letter-spacing: 8px;
 }
 
-.box {
+.box {        
   width: 100%;
   width: -moz-available;          /* WebKit-based browsers will ignore this. */
   width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
   width: fill-available;
-  align-items: flex-start;  
+  align-items: flex-start;
 }
 
 .left_section {
@@ -124,18 +110,10 @@ h1 {
   position: sticky;
 }
 
-.subtitle {
-  color: #FEFAE0;
-  margin: 0px;
-  margin-bottom: 5px;
-}
-
 .clear_data {
   display: flex;
   align-items: center;
   justify-content: space-between;
- 
-  
 }
 
 .data_clear{
@@ -183,14 +161,7 @@ h1 {
 
   width: fit-content;
   height:fit-content;
-  /*padding: 1.5rem;*/
   margin: 0 auto;
-}
-
-div .alertBox {
-  color: #FEFAE0;
-  font-style: italic;
-  font-family: 'IBM Plex Mono';
 }
 
 .bot {
@@ -253,6 +224,17 @@ form label {
   margin-bottom: 0.5rem;
 }
 
+.chart_container {
+  height: 350x;
+  width: 600px;
+}
+
+div .chartBox {
+  color: #FEFAE0;
+  font-style: italic;
+  font-family: 'IBM Plex Mono';
+}
+
 @media only screen and (max-width: 736px){
   /* Rules in here will only apply when a screen is the correct size */
   /* check it out by using your developer tools to shrink your screen-size */
@@ -281,16 +263,11 @@ form label {
     width: fill-available;
     align-items: flex-start;  
   }
-}
 
-.chart_container {
-  height: 350x;
-  width: 600px;
-}
-
-div .chartBox {
-  align-content: r;
-  color: #FEFAE0;
-  font-style: italic;
-  font-family: 'IBM Plex Mono';
+  .chart_container {
+    width: 100%;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: fill-available;
+  }
 }
