@@ -85,8 +85,8 @@ h1 {
   letter-spacing: 8px;
 }
 
-.box {        
-  width: 100%;
+.box {
+  max-width: 800px;
   width: -moz-available;          /* WebKit-based browsers will ignore this. */
   width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
   width: fill-available;
@@ -225,12 +225,14 @@ form label {
 }
 
 .chart_container {
-  height: 350x;
-  width: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 div .chartBox {
   color: #FEFAE0;
+  
   font-style: italic;
   font-family: 'IBM Plex Mono';
 }
@@ -269,5 +271,11 @@ div .chartBox {
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     width: fill-available;
+  }
+
+  .alBot {
+    width: 290px;
+    height: 350px;
+    align-items: start;
   }
 }
