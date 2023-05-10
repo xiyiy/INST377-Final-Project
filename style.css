@@ -2,13 +2,7 @@
   box-sizing: border-box;
 }
 
-/* 
-  These rules apply to actual HTML elements with no labelling!
-  So: they style the tags directly
-*/
-
 html {
-  background-color: #FEFAE0;
   font-size: 16px;
   min-width: 300px;
   overflow-x: hidden;
@@ -27,11 +21,9 @@ html {
 body {
   margin: 0;
   padding: 0;
-
   font-family: 'IBM Plex Mono';
   font-weight: 400;
   line-height: 1.5;
-  
 }
 
 a {
@@ -40,16 +32,11 @@ a {
 }
 
 h2, h3 {
-  margin:0;
-  padding:0;
-  padding-bottom:1rem;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 1rem;
   color: #FEFAE0;
   align-items: center;
-}
-
-form {
-  accent-color: hsla(120, 100%, 50%, 0.482);
-
 }
 
 .wrapper {
@@ -87,8 +74,8 @@ h1 {
 
 .box {
   max-width: 800px;
-  width: -moz-available;          /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: -moz-available;         
+  width: -webkit-fill-available; 
   width: fill-available;
   align-items: flex-start;
 }
@@ -173,7 +160,6 @@ h1 {
 
   flex: 1 2 auto;
   margin: 1rem;
-  align-items: center;
   display: flex;
   flex-direction: column;
 }
@@ -198,13 +184,11 @@ button {
 }
 
 form input {
-  /* This is a hack to make sure our boxes line up with one another nicely */
   width: 100%;
-  width: -moz-available;          /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: -moz-available;         
+  width: -webkit-fill-available; 
   width: fill-available;
 
-  /* here we are setting white space correctly */
   height: 2rem;
   border-radius: 4px;
   background-color: #283618;
@@ -214,16 +198,17 @@ form input {
 
 form label {
   width: 100%;
-  width: -moz-available;          /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: -moz-available;         
+  width: -webkit-fill-available; 
   width: fill-available;
   align-items: flex-start;
   color: #FEFAE0;
 
-  display: block; /* this turns the label text into a box we can set margins on */
+  display: block; 
   margin-bottom: 0.5rem;
 }
 
+/*chart area*/
 .chart_container {
   display: flex;
   justify-content: center;
@@ -232,9 +217,33 @@ form label {
 
 div .chartBox {
   color: #FEFAE0;
-  
   font-style: italic;
   font-family: 'IBM Plex Mono';
+}
+
+/*Footer*/
+.footer {
+  flex-shrink: 0;
+  padding: 1rem;
+  background-color: #606C38;
+  color: #FEFAE0;
+  font-size: 1.2rem;
+
+  border-radius: 4px;
+
+  position: sticky;
+  bottom: 0;
+}
+
+.footer a {
+  color: #FEFAE0;
+  text-decoration: underline;
+}
+
+.footer a:hover {
+
+  color: #283618;
+  text-decoration: none;
 }
 
 @media only screen and (max-width: 736px){
@@ -260,16 +269,16 @@ div .chartBox {
 
   .box {
     width: 100%;
-    width: -moz-available;          /* WebKit-based browsers will ignore this. */
-    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: -moz-available;         
+    width: -webkit-fill-available; 
     width: fill-available;
     align-items: flex-start;  
   }
 
   .chart_container {
     width: 100%;
-    width: -moz-available;          /* WebKit-based browsers will ignore this. */
-    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: -moz-available;         
+    width: -webkit-fill-available; 
     width: fill-available;
   }
 

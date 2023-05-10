@@ -62,13 +62,6 @@ function initChart(chart) {
         padding: 15
       },
       plugins: {
-        /*labels: {
-          render: 'percentage',
-          fontColor: '#FEFAE0',
-          fontStyle: 'bolder',
-          position: 'outside',
-          textMargin: 10
-        },*/
         legend: {
           align: 'center',
           position: 'bottom',
@@ -84,7 +77,6 @@ function initChart(chart) {
         text: "% of Ingredients",
       },
     },
-    //plugins: [ChartDataLabels]
   };
 
   return new Chart(
@@ -126,11 +118,6 @@ function changeAllergyChart(myChart, filteredIngredients, allergy) {
   myChart.update();
 }
 
-/*function changeBGColor() {
-  const speechBubble = document.querySelector("#bubble")
-  speechBubble.style.backgroundColor = "#ff0000"
-}
-*/
 
 async function getData(barcodeNum) {
   //retrieves product info based on barcode
@@ -188,12 +175,9 @@ async function mainEvent() {
     console.log(storedList);
 
     chartArea.classList.remove("hidden");
-    //hiddenText1.classList.remove("hidden");
 
-    changeBarcodeChart(myChart, chartData);
-
-    console.log(chartData.product.ingredients)
-    //console.log(chartData.product.allergens_tags)
+    changeBarcodeChart(myChart, storedList);
+    //changeBarcodeChart(myChart, chartData);
   });
 
 
@@ -219,7 +203,7 @@ async function mainEvent() {
     //console.log(storedList);
 
     //filter based on filtered ingredients and allergy input
-    const ingredients = chartData.product.ingredients;
+    const ingredients = storedList.product.ingredients;
     //console.log(ingredients)
 
     const filteredIngredients = ingredients.filter(ingredient => {
@@ -228,6 +212,7 @@ async function mainEvent() {
 
     if(filteredIngredients.length > 0){
       injectHTML(filteredIngredients);
+
       chartArea.classList.remove("hidden");
       speechBubble.style.backgroundColor = "#ff0000"
       hiddenText1.classList.add("hidden");
