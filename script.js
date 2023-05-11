@@ -141,6 +141,7 @@ async function mainEvent() {
   const speechBubble = document.querySelector("#bubble");
   const hiddenText1 = document.querySelector("#hiddenText1");
   const hiddenText2 = document.querySelector("#hiddenText2");
+  const hiddenText3 = document.querySelector("#hiddenText3");
 
   //reference to the html location
   const chartTarget = document.querySelector("#myChart");
@@ -202,7 +203,6 @@ async function mainEvent() {
 
     if (filteredIngredients.length > 0) {
       injectHTML(filteredIngredients);
-
       chartArea.classList.remove("hidden");
       speechBubble.style.backgroundColor = "#ff0000";
       hiddenText1.classList.add("hidden");
@@ -210,6 +210,8 @@ async function mainEvent() {
     } else {
       noAllergy();
       chartArea.classList.add("hidden");
+      hiddenText1.classList.add("hidden");
+      hiddenText3.classList.remove("hidden");
     }
 
     changeAllergyChart(myChart, filteredIngredients, allergy);
