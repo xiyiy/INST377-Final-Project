@@ -1,7 +1,7 @@
 # INST377-Final-Project
 
 The title of my project for INST377: Al Alert
-The link to Github pages for this project: https://xiyiy.github.io
+The link to Github pages for this project: https://xiyiy.github.io/INST377-Final-Project/
 
 This site is compatible with most browsers, including those on mobile devices whether it be IOS or Android. All individuals who struggle with their everyday allergens are given the power to search for an allergen within a product's ingredients in a matter of seconds. 
 
