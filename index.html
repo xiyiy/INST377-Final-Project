@@ -10,11 +10,11 @@
   <body>
     <!--For Charts.js-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <div class="wrapper">
       <!--Title-->
       <header class="header">
-        <img src="Al_icon.png" class="alIcon" alt="Al Alert logo">
+        <img src="Al_icon.png" class="alIcon" alt="Al Alert logo" />
         <h1>AL ALERT</h1>
       </header>
       <div class="container">
@@ -22,27 +22,28 @@
         <div class="box">
           <div class="left_section box">
             <form id="main_form">
-            
-              <!--Barcode-->
+              <!--Clear data-->
               <div class="clear_data">
                 <h2>Allergen Detection</h2>
-                <button type="button" class="data_clear" id="data_clear">Clear Data</button>
+                <button type="button" class="data_clear" id="data_clear">
+                  Clear Data
+                </button>
               </div>
-              
+              <!--Barcode-->
               <div>
                 <label for="barcode">Enter Barcode</label>
-                <input type="text" id="barcode" name="barcode"/>
+                <input type="text" id="barcode" name="barcode" />
                 <button type="submit" id="submitBarcode">Submit</button>
-              </div>  
+              </div>
               <!--Allergy-->
               <div>
                 <label for="al">Enter Allergy</label>
-                <input type="text" id="al" name="al"/>
+                <input type="text" id="al" name="al" />
                 <button type="submit" id="submitAl">Submit</button>
               </div>
             </form>
           </div>
-          <div class="left_section hidden" id="hidden"> <!--add hidden-->
+          <div class="left_section hidden" id="hidden">
             <!--Pie chart-->
             <h3>Composition of Ingredients</h3>
             <div class="chart_container">
@@ -52,26 +53,24 @@
         </div>
         <!--- Right Robot--->
         <div class="right_section box">
-          <div class="bubble left", id="bubble"> 
-            <div class="hidden", id="hiddenText1">
+          <div class="bubble left" , id="bubble">
+            <div class="hidden" , id="hiddenText1">
               <h3>Welcome, I am Al your Allergy Assistant!</h3>
             </div>
-            <div class="hidden", id="hiddenText2">
-              <h2>Al Alert!<br></h2>
-              <h3>The product contains:<br></h3>
+            <div class="hidden" , id="hiddenText2">
+              <h2>Al Alert!<br /></h2>
+              <h3>The product contains:<br /></h3>
               <div class="alertBox" id="allergy_list">Allergen Information</div>
             </div>
           </div>
-
           <div class="bot">
-            <img src="Al_Bot.png"  class="alBot" alt="Al Alert Robot">
+            <img src="Al_Bot.png" class="alBot" alt="Al Alert Robot" />
           </div>
         </div>
       </div>
       <footer class="footer">
-        Github Account: 
+        Github Account:
         <a href="http://github.com/xiyiy"> xiyiy |</a>
-
         <a href="about.html"> About Me </a>
       </footer>
     </div>
